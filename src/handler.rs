@@ -14,7 +14,7 @@ impl ConnectionHandler {
         let (status, filename) = ConnectionHandler::get_response(data);
         dbg!(&filename);
         let html = ConnectionHandler::get_file_contents(&filename);
-        dbg!(&html);
+        // dbg!(&html);
         ConnectionHandler::write_response(stream, status, &html);
     }
 
@@ -69,7 +69,7 @@ impl ConnectionHandler {
         let mut contents = vec![];
         // file.read_to_string(&mut contents).unwrap();
         file.read_to_end(&mut contents);
-        dbg!(&contents);
+        // dbg!(&contents);
         contents
     }
 }
