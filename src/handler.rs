@@ -19,12 +19,25 @@ impl ConnectionHandler {
     }
 
     fn parse (request_line:&str) -> String {
+        dbg!(&request_line);
         let mut vec_line = request_line.split_whitespace();
-        let mut request_line = vec_line.nth(1).unwrap().to_string();
-        let mut url:Vec<&str> = request_line.split("/").collect();
-        url.remove(0);
-        let file = url.join("/");
-        dbg!(file)
+
+        match vec_line.nth(1) {
+            Some(p) => 
+            {
+                let mut request_line = p.to_string();
+                let mut url:Vec<&str> = request_line.split("/").collect();
+                url.remove(0);
+                let file = url.join("/");
+                dbg!(file)
+            }
+            None => 
+            {            
+                println!("has no value");
+                String::new()
+            }        
+        }
+        
     }
 
     fn get_response(buffer: [u8; 512]) -> (&'static str, String) {
@@ -64,12 +77,25 @@ impl ConnectionHandler {
     // }
 
     fn get_file_contents(filename: &str) -> Vec<u8> {
-        let mut file = File::open(filename).unwrap();
-        dbg!(&file);
         let mut contents = vec![];
-        // file.read_to_string(&mut contents).unwrap();
-        file.read_to_end(&mut contents);
-        // dbg!(&contents);
+
+        let mut file = File::open(filename);
+
+        match file {
+            Ok(mut rfile) => {
+                // println!("working with version: {:?}", v);
+                dbg!(&rfile);
+                // file.read_to_string(&mut contents).unwrap();
+                rfile.read_to_end(&mut contents);
+                // dbg!(&contents);
+
+            }
+            Err(e) => {
+                println!("error get_file_contents: {:?}", e);
+            }
+        }
+
+        
         contents
     }
 }
