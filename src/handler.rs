@@ -25,7 +25,7 @@ impl ConnectionHandler {
         match vec_line.nth(1) {
             Some(p) => 
             {
-                let mut request_line = p.to_string();
+                let request_line = p.to_string();
                 let mut url:Vec<&str> = request_line.split("/").collect();
                 url.remove(0);
                 let file = url.join("/");
@@ -79,14 +79,14 @@ impl ConnectionHandler {
     fn get_file_contents(filename: &str) -> Vec<u8> {
         let mut contents = vec![];
 
-        let mut file = File::open(filename);
+        let file = File::open(filename);
 
         match file {
             Ok(mut rfile) => {
                 // println!("working with version: {:?}", v);
                 dbg!(&rfile);
                 // file.read_to_string(&mut contents).unwrap();
-                rfile.read_to_end(&mut contents);
+                rfile.read_to_end(&mut contents).unwrap();
                 // dbg!(&contents);
 
             }

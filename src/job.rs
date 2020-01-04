@@ -8,4 +8,4 @@ impl<F: FnOnce()> Runnable for F {
     }
 }
 
-pub type Job = Box<Runnable + Send + 'static>;
+pub type Job = Box<dyn Runnable + Send + 'static>;
